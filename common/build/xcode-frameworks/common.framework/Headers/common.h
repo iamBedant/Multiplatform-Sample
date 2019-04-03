@@ -1,5 +1,9 @@
 #import <Foundation/Foundation.h>
 
+@class CommonLog, CommonKotlinThrowable, CommonMainLoopDispatcher, CommonKotlinx_coroutines_core_nativeCoroutineDispatcher, CommonKotlinAbstractCoroutineContextElement, CommonKotlinArray;
+
+@protocol CommonKotlinCoroutineContextElement, CommonKotlinCoroutineContextKey, CommonKotlinCoroutineContext, CommonKotlinContinuationInterceptor, CommonKotlinContinuation, CommonKotlinx_coroutines_core_nativeRunnable, CommonKotlinSuspendFunction0, CommonKotlinSuspendFunction, CommonKotlinIterator;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface KotlinBase : NSObject
@@ -138,6 +142,73 @@ __attribute__((swift_name("KotlinBoolean")))
 @end;
 
 __attribute__((objc_subclassing_restricted))
+__attribute__((swift_name("Log")))
+@interface CommonLog : KotlinBase
++ (instancetype)alloc __attribute__((unavailable));
++ (instancetype)allocWithZone:(struct _NSZone *)zone __attribute__((unavailable));
++ (instancetype)log __attribute__((swift_name("init()")));
+- (void)dMessage:(NSString *)message __attribute__((swift_name("d(message:)")));
+- (void)eMessage:(NSString *)message __attribute__((swift_name("e(message:)")));
+- (void)eError:(CommonKotlinThrowable *)error __attribute__((swift_name("e(error:)")));
+- (void)iMessage:(NSString *)message __attribute__((swift_name("i(message:)")));
+@end;
+
+__attribute__((swift_name("KotlinCoroutineContext")))
+@protocol CommonKotlinCoroutineContext
+@required
+- (id _Nullable)foldInitial:(id _Nullable)initial operation:(id _Nullable (^)(id _Nullable, id<CommonKotlinCoroutineContextElement>))operation __attribute__((swift_name("fold(initial:operation:)")));
+- (id<CommonKotlinCoroutineContextElement> _Nullable)getKey:(id<CommonKotlinCoroutineContextKey>)key __attribute__((swift_name("get(key:)")));
+- (id<CommonKotlinCoroutineContext>)minusKeyKey:(id<CommonKotlinCoroutineContextKey>)key __attribute__((swift_name("minusKey(key:)")));
+- (id<CommonKotlinCoroutineContext>)plusContext:(id<CommonKotlinCoroutineContext>)context __attribute__((swift_name("plus(context:)")));
+@end;
+
+__attribute__((swift_name("KotlinCoroutineContextElement")))
+@protocol CommonKotlinCoroutineContextElement <CommonKotlinCoroutineContext>
+@required
+@property (readonly) id<CommonKotlinCoroutineContextKey> key;
+@end;
+
+__attribute__((swift_name("KotlinAbstractCoroutineContextElement")))
+@interface CommonKotlinAbstractCoroutineContextElement : KotlinBase <CommonKotlinCoroutineContextElement>
+- (instancetype)initWithKey:(id<CommonKotlinCoroutineContextKey>)key __attribute__((swift_name("init(key:)"))) __attribute__((objc_designated_initializer));
+@end;
+
+__attribute__((swift_name("KotlinContinuationInterceptor")))
+@protocol CommonKotlinContinuationInterceptor <CommonKotlinCoroutineContextElement>
+@required
+- (id<CommonKotlinContinuation>)interceptContinuationContinuation:(id<CommonKotlinContinuation>)continuation __attribute__((swift_name("interceptContinuation(continuation:)")));
+- (void)releaseInterceptedContinuationContinuation:(id<CommonKotlinContinuation>)continuation __attribute__((swift_name("releaseInterceptedContinuation(continuation:)")));
+@end;
+
+__attribute__((swift_name("Kotlinx_coroutines_core_nativeCoroutineDispatcher")))
+@interface CommonKotlinx_coroutines_core_nativeCoroutineDispatcher : CommonKotlinAbstractCoroutineContextElement <CommonKotlinContinuationInterceptor>
+- (instancetype)init __attribute__((swift_name("init()"))) __attribute__((objc_designated_initializer));
++ (instancetype)new __attribute__((availability(swift, unavailable, message="use object initializers instead")));
+- (instancetype)initWithKey:(id<CommonKotlinCoroutineContextKey>)key __attribute__((swift_name("init(key:)"))) __attribute__((objc_designated_initializer)) __attribute__((unavailable));
+- (void)dispatchContext:(id<CommonKotlinCoroutineContext>)context block:(id<CommonKotlinx_coroutines_core_nativeRunnable>)block __attribute__((swift_name("dispatch(context:block:)")));
+- (void)dispatchYieldContext:(id<CommonKotlinCoroutineContext>)context block:(id<CommonKotlinx_coroutines_core_nativeRunnable>)block __attribute__((swift_name("dispatchYield(context:block:)")));
+- (BOOL)isDispatchNeededContext:(id<CommonKotlinCoroutineContext>)context __attribute__((swift_name("isDispatchNeeded(context:)")));
+- (CommonKotlinx_coroutines_core_nativeCoroutineDispatcher *)plusOther:(CommonKotlinx_coroutines_core_nativeCoroutineDispatcher *)other __attribute__((swift_name("plus(other:)")));
+@end;
+
+__attribute__((objc_subclassing_restricted))
+__attribute__((swift_name("MainLoopDispatcher")))
+@interface CommonMainLoopDispatcher : CommonKotlinx_coroutines_core_nativeCoroutineDispatcher
++ (instancetype)alloc __attribute__((unavailable));
++ (instancetype)allocWithZone:(struct _NSZone *)zone __attribute__((unavailable));
++ (instancetype)mainLoopDispatcher __attribute__((swift_name("init()")));
+- (instancetype)init __attribute__((swift_name("init()"))) __attribute__((objc_designated_initializer)) __attribute__((unavailable));
++ (instancetype)new __attribute__((unavailable));
+@end;
+
+__attribute__((objc_subclassing_restricted))
+__attribute__((swift_name("UtilsKt")))
+@interface CommonUtilsKt : KotlinBase
++ (CommonKotlinx_coroutines_core_nativeCoroutineDispatcher *)getMainDispetcher __attribute__((swift_name("getMainDispetcher()")));
++ (void)runTestBlock:(id<CommonKotlinSuspendFunction0>)block __attribute__((swift_name("runTest(block:)")));
+@end;
+
+__attribute__((objc_subclassing_restricted))
 __attribute__((swift_name("ActualKt")))
 @interface CommonActualKt : KotlinBase
 + (NSString *)platformName __attribute__((swift_name("platformName()")));
@@ -147,6 +218,66 @@ __attribute__((objc_subclassing_restricted))
 __attribute__((swift_name("CommonKt")))
 @interface CommonCommonKt : KotlinBase
 + (NSString *)createApplicationScreenMessage __attribute__((swift_name("createApplicationScreenMessage()")));
+@end;
+
+__attribute__((swift_name("KotlinThrowable")))
+@interface CommonKotlinThrowable : KotlinBase
+- (instancetype)initWithMessage:(NSString * _Nullable)message __attribute__((swift_name("init(message:)"))) __attribute__((objc_designated_initializer));
+- (instancetype)initWithCause:(CommonKotlinThrowable * _Nullable)cause __attribute__((swift_name("init(cause:)"))) __attribute__((objc_designated_initializer));
+- (instancetype)init __attribute__((swift_name("init()"))) __attribute__((objc_designated_initializer));
++ (instancetype)new __attribute__((availability(swift, unavailable, message="use object initializers instead")));
+- (instancetype)initWithMessage:(NSString * _Nullable)message cause:(CommonKotlinThrowable * _Nullable)cause __attribute__((swift_name("init(message:cause:)"))) __attribute__((objc_designated_initializer));
+- (CommonKotlinArray *)getStackTrace __attribute__((swift_name("getStackTrace()")));
+- (void)printStackTrace __attribute__((swift_name("printStackTrace()")));
+@property (readonly) CommonKotlinThrowable * _Nullable cause;
+@property (readonly) NSString * _Nullable message;
+@end;
+
+__attribute__((swift_name("KotlinCoroutineContextKey")))
+@protocol CommonKotlinCoroutineContextKey
+@required
+@end;
+
+__attribute__((swift_name("KotlinContinuation")))
+@protocol CommonKotlinContinuation
+@required
+- (void)resumeWithResult:(id _Nullable)result __attribute__((swift_name("resumeWith(result:)")));
+@property (readonly) id<CommonKotlinCoroutineContext> context;
+@end;
+
+__attribute__((swift_name("Kotlinx_coroutines_core_nativeRunnable")))
+@protocol CommonKotlinx_coroutines_core_nativeRunnable
+@required
+- (void)run __attribute__((swift_name("run()")));
+@end;
+
+__attribute__((swift_name("KotlinSuspendFunction")))
+@protocol CommonKotlinSuspendFunction
+@required
+@end;
+
+__attribute__((swift_name("KotlinSuspendFunction0")))
+@protocol CommonKotlinSuspendFunction0 <CommonKotlinSuspendFunction>
+@required
+@end;
+
+__attribute__((objc_subclassing_restricted))
+__attribute__((swift_name("KotlinArray")))
+@interface CommonKotlinArray : KotlinBase
++ (instancetype)arrayWithSize:(int32_t)size init:(id _Nullable (^)(CommonInt *))init __attribute__((swift_name("init(size:init:)")));
++ (instancetype)alloc __attribute__((unavailable));
++ (instancetype)allocWithZone:(struct _NSZone *)zone __attribute__((unavailable));
+- (id _Nullable)getIndex:(int32_t)index __attribute__((swift_name("get(index:)")));
+- (id<CommonKotlinIterator>)iterator __attribute__((swift_name("iterator()")));
+- (void)setIndex:(int32_t)index value:(id _Nullable)value __attribute__((swift_name("set(index:value:)")));
+@property (readonly) int32_t size;
+@end;
+
+__attribute__((swift_name("KotlinIterator")))
+@protocol CommonKotlinIterator
+@required
+- (BOOL)hasNext __attribute__((swift_name("hasNext()")));
+- (id _Nullable)next __attribute__((swift_name("next()")));
 @end;
 
 NS_ASSUME_NONNULL_END
