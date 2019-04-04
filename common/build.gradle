@@ -1,4 +1,6 @@
 apply plugin: 'kotlin-multiplatform'
+apply plugin: 'kotlinx-serialization'
+
 
 kotlin {
     targets {
@@ -18,15 +20,28 @@ kotlin {
         commonMain.dependencies {
             api 'org.jetbrains.kotlin:kotlin-stdlib-common'
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-common:$coroutines_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-common:$serialization_version"
+            implementation "io.ktor:ktor-client-core:$ktor_version"
+            implementation "io.ktor:ktor-client-json:$ktor_version"
         }
 
         androidMain.dependencies {
             api 'org.jetbrains.kotlin:kotlin-stdlib'
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
+            implementation "io.ktor:ktor-client-core-jvm:$ktor_version"
+            implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
+            implementation "io.ktor:ktor-client-okhttp:$ktor_version"
+            api 'com.jakewharton.timber:timber:4.7.1'
+
         }
 
         iOSMain.dependencies {
             implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-native:$coroutines_version"
+            implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime-native:$serialization_version"
+            implementation "io.ktor:ktor-client-ios:$ktor_version"
+            implementation "io.ktor:ktor-client-core-native:$ktor_version"
+            implementation "io.ktor:ktor-client-json-native:$ktor_version"
         }
     }
 }
