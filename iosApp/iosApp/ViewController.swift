@@ -9,17 +9,35 @@
 import UIKit
 import common
 
-class ViewController: UIViewController {
-
+class ViewController: UIViewController , MainView{
+    func showError(error: String) {
+        
+    }
+    
+    func displayData(data: DisplayData) {
+        print(data.name)
+    }
+    
+    func showLoader() {
+        
+    }
+    
+    func hideLoader() {
+        
+    }
+    
+    lazy var presenter : MainPresenter = {
+        MainPresenter(view: self,
+                      repository: DataRepositoryImpl(),
+                      uiContext:IosUtilities().getDispetcher()
+        )
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 21))
-        label.center = CGPoint(x: 160, y: 285)
-        label.textAlignment = .center
-        label.font = label.font.withSize(25)
-        label.text = CommonKt.createApplicationScreenMessage()
-        view.addSubview(label)
+        presenter.loadData(userName: "iamBedant")
+        
     }
 }
 
