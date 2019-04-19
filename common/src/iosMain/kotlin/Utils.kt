@@ -1,9 +1,12 @@
 package org.kotlin.mpp.mobile
 
+import com.squareup.sqldelight.db.SqlDriver
+import com.squareup.sqldelight.drivers.ios.NativeSqliteDriver
 import platform.Foundation.NSRunLoop
 import platform.Foundation.performBlock
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
+import storage.Database
 
 /**
  * Created by @iamBedant on 03,April,2019
@@ -41,3 +44,5 @@ actual fun getMainDispetcher(): CoroutineDispatcher {
 actual fun <T> runTest(block: suspend () -> T) {
     runBlocking { block() }
 }
+
+actual fun getSqlDeliteDriver(): SqlDriver = NativeSqliteDriver(Database.Schema, "user.db")

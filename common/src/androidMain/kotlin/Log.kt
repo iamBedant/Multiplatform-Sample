@@ -1,5 +1,6 @@
 package org.kotlin.mpp.mobile
 
+import com.squareup.sqldelight.db.SqlDriver
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -32,3 +33,7 @@ actual fun <T> runTest(block: suspend () -> T) {
     runBlocking { block() }
 }
 
+actual fun getSqlDeliteDriver(): SqlDriver {
+    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    //TODO: figure out a way to provide android driver from here
+}

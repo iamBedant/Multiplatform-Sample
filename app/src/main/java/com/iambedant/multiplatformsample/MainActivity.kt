@@ -1,7 +1,6 @@
 package com.iambedant.multiplatformsample
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.squareup.sqldelight.android.AndroidSqliteDriver
@@ -10,8 +9,6 @@ import org.kotlin.mpp.mobile.data.DisplayData
 import org.kotlin.mpp.mobile.model.DataRepositoryImpl
 import org.kotlin.mpp.mobile.presentation.MainPresenter
 import org.kotlin.mpp.mobile.presentation.MainView
-import org.kotlin.mpp.mobile.storage.saveUserNameToDb
-import org.kotlin.mpp.mobile.storage.userDatabase
 import storage.Database
 
 class MainActivity : AppCompatActivity(),MainView {
@@ -42,7 +39,6 @@ class MainActivity : AppCompatActivity(),MainView {
             tvRepos.text = publicRepos
             tvGists.text = publicGists
             tvBio.text = bio
-            saveUserNameToDb(name)
         }
     }
 
@@ -57,15 +53,12 @@ class MainActivity : AppCompatActivity(),MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initializeDatabse()
+        presenter.initDatabase(AndroidSqliteDriver(Database.Schema, this, "user.db"))
+        etUserName.hint = presenter.getSavedUserData()
         fabGo.setOnClickListener {
             presenter.loadData(etUserName.text.toString())
         }
     }
 
-    private fun initializeDatabse() {
-        if (userDatabase == null) {
-            userDatabase = Database(AndroidSqliteDriver(Database.Schema, this, "user.db"))
-        }
-    }
+
 }

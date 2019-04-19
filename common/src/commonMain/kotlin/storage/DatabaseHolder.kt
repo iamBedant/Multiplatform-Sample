@@ -18,3 +18,15 @@ fun saveUserNameToDb(userName: String) {
     }
 
 }
+
+fun getSavedUsername(): String{
+    var users : List<String> = listOf()
+    userDatabase?.let{
+         users = it.userQueries.getAll().executeAsList()
+    }
+    if(users.isNotEmpty()){
+        return users[0]
+    }else{
+        return ""
+    }
+}
