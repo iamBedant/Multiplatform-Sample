@@ -1,5 +1,6 @@
 package org.kotlin.mpp.mobile
 
+import com.squareup.sqldelight.db.SqlDriver
 import kotlinx.coroutines.CoroutineDispatcher
 
 /**
@@ -16,3 +17,5 @@ expect object Log{
 expect fun getMainDispetcher(): CoroutineDispatcher
 
 expect fun <T> runTest(block: suspend () -> T)
+
+expect fun getSqlDeliteDriver(): SqlDriver

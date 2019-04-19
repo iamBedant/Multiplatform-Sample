@@ -9,6 +9,7 @@
 import UIKit
 import common
 
+
 class ViewController: UIViewController , MainView{
     func showError(error: String) {
         
@@ -36,8 +37,11 @@ class ViewController: UIViewController , MainView{
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        presenter.doInitDatabaseIos()
+        print(presenter.getSavedUserData())
         presenter.loadData(userName: "iamBedant")
         
     }
+   
 }
 

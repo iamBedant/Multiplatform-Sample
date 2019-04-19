@@ -11,15 +11,15 @@ android {
         minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
+        multiDexEnabled true
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
+    
+    buildTypes{
+        debug{  }
+        release{  }
     }
     packagingOptions {
         exclude 'META-INF/common.kotlin_module'
