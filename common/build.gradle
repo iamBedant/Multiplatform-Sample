@@ -39,7 +39,7 @@ kotlin {
             implementation "io.ktor:ktor-client-json-jvm:$ktor_version"
             implementation "io.ktor:ktor-client-okhttp:$ktor_version"
             api 'com.jakewharton.timber:timber:4.7.1'
-            implementation "com.squareup.sqldelight:android-driver:1.1.1"
+            implementation "com.squareup.sqldelight:android-driver:$sqldelight_version"
 
         }
 
@@ -49,7 +49,7 @@ kotlin {
             implementation "io.ktor:ktor-client-ios:$ktor_version"
             implementation "io.ktor:ktor-client-core-native:$ktor_version"
             implementation "io.ktor:ktor-client-json-native:$ktor_version"
-            implementation "com.squareup.sqldelight:ios-driver:1.1.1"
+            implementation "com.squareup.sqldelight:ios-driver:$sqldelight_version"
         }
     }
 }
