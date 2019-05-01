@@ -10,7 +10,7 @@ import kotlinx.coroutines.runBlocking
 
 actual object Log{
     actual fun d(message: String) {
-//        Timber.d(message)
+        System.out.println(message)
     }
 
     actual fun e(message: String) {

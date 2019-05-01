@@ -1,11 +1,11 @@
 package org.kotlin.mpp.mobile.model
 
-import org.kotlin.mpp.mobile.data.AllData
+import data.NewsData
 
 /**
  * Created by @iamBedant on 03,April,2019
  */
 interface DataRepository{
-    val data : AllData?
-    suspend fun getData(username:String)
+    val topHeadlines : NewsData ?
+    suspend fun getTopHeadlines()
 }
