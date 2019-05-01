@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark"
+        android:background="@android:color/black"
         tools:context=".MainActivity">
     <ProgressBar
             style="?android:attr/progressBarStyle"
@@ -14,13 +14,14 @@
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"/>
-    <androidx.recyclerview.widget.RecyclerView
+    <FrameLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" android:id="@+id/rvNews"/>
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            android:id="@+id/container"
+            app:layout_constraintBottom_toTopOf="@+id/navigation"/>
     <androidx.appcompat.widget.Toolbar
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -43,5 +44,17 @@
                 android:textSize="20dp"
                 android:layout_height="wrap_content" android:id="@+id/fon" tools:layout_editor_absoluteY="14dp"/>
     </androidx.appcompat.widget.Toolbar>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/navigation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:theme="@style/BottomNavigationTheme"
+            app:menu="@menu/navigation"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.rv_item_news.view.*
 /**
  * Created by @iamBedant on 01,May,2019
  */
-class NewsAdapter(val dataSource: List<NewsArticle>, private val itemClick:(NewsArticle)->Unit) : RecyclerView.Adapter<ViewHolder>() {
+class NewsAdapter(private var dataSource: List<NewsArticle>, private val itemClick:(NewsArticle)->Unit) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.rv_item_news, parent, false))
@@ -32,6 +32,12 @@ class NewsAdapter(val dataSource: List<NewsArticle>, private val itemClick:(News
 
     override fun getItemCount(): Int {
         return dataSource.size
+    }
+
+    fun addItems(it: List<NewsArticle>) {
+        //Todo: Add diffutils
+        dataSource = it
+        notifyDataSetChanged()
     }
 }
 
