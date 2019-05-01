@@ -26,7 +26,7 @@ class NewsAdapter(val dataSource: List<NewsArticle>, private val itemClick:(News
             Glide.with(holder.coverImage.context)
                 .load(urlToImage)
                 .into(holder.coverImage)
-            holder.item.setOnClickListener { itemClick.invoke(this) }
+            holder.bookmark.setOnClickListener { itemClick.invoke(this) }
         }
     }
 
@@ -36,10 +36,10 @@ class NewsAdapter(val dataSource: List<NewsArticle>, private val itemClick:(News
 }
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    val item = view
     val title = view.tvTitle
     val coverImage= view.ivCover
     val time = view.tvTime
     val description= view.tvDescription
     val source = view.tvSource
+    val bookmark = view.ibBookmark
 }
