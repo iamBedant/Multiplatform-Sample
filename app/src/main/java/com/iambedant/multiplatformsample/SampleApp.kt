@@ -13,8 +13,6 @@ class SampleApp : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         } else {
-//            Timber.plant(CrashReportingTree())
-
         }
     }
 }

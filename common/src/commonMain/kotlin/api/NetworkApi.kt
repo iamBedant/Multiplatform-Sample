@@ -1,5 +1,6 @@
 package org.kotlin.mpp.mobile.api
 
+import data.NewsData
 import io.ktor.client.HttpClient
 import io.ktor.client.features.ExpectSuccess
 import io.ktor.client.features.json.JsonFeature
@@ -10,7 +11,6 @@ import io.ktor.http.ContentType
 import io.ktor.http.URLProtocol
 import io.ktor.http.contentType
 import io.ktor.http.takeFrom
-import org.kotlin.mpp.mobile.data.AllData
 
 /**
  * Created by @iamBedant on 03,April,2019
@@ -21,20 +21,19 @@ class NetworkApi(private val endPoint: String) {
     private val httpClient = HttpClient {
         install(JsonFeature) {
             serializer = KotlinxSerializer().apply {
-                setMapper(AllData::class, AllData.serializer())
+                setMapper(NewsData::class, NewsData.serializer())
             }
         }
         install(ExpectSuccess)
     }
 
-    suspend fun getAll(userId: String): AllData = httpClient.get {
+    suspend fun getTopHeadlines() : NewsData = httpClient.get{
         url {
             protocol = URLProtocol.HTTPS
-            host = "api.github.com"
-            encodedPath = "users/$userId"
+            host = "newsapi.org/v2"
+            encodedPath = "top-headlines?country=us&apiKey=d33e891e97b74a838f165a171a07abda"
         }
     }
-
 
     private fun HttpRequestBuilder.json() {
         contentType(ContentType.Application.Json)

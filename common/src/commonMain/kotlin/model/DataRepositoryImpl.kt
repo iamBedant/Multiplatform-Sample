@@ -1,30 +1,25 @@
 package org.kotlin.mpp.mobile.model
 
+import data.NewsData
 import org.kotlin.mpp.mobile.Log
 import org.kotlin.mpp.mobile.api.NetworkApi
 import org.kotlin.mpp.mobile.api.UnknownProblem
-import org.kotlin.mpp.mobile.data.AllData
 
 /**
  * Created by @iamBedant on 03,April,2019
  */
 
 class DataRepositoryImpl : DataRepository {
-
+    override var topHeadlines: NewsData? = null
     private val api = NetworkApi("https://github.com")
-    override var data: AllData? = null
 
-    override suspend fun getData(username: String) {
-
+    override suspend fun getTopHeadlines() {
         val data = try {
-            api.getAll(username)
+            api.getTopHeadlines()
         } catch (cause: Throwable) {
             Log.e(cause)
-
             throw UnknownProblem()
         }
-
-        this.data = data
-
+        this.topHeadlines = data
     }
 }

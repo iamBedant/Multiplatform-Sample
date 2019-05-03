@@ -3,43 +3,30 @@ package com.iambedant.multiplatformsample
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.sqldelight.android.AndroidSqliteDriver
+import data.NewsArticle
 import kotlinx.android.synthetic.main.activity_main.*
-import org.kotlin.mpp.mobile.data.DisplayData
 import org.kotlin.mpp.mobile.model.DataRepositoryImpl
 import org.kotlin.mpp.mobile.presentation.MainPresenter
 import org.kotlin.mpp.mobile.presentation.MainView
 import storage.Database
 
-class MainActivity : AppCompatActivity(),MainView {
-
+class MainActivity : AppCompatActivity(), MainView {
+    override fun displayHeadLines(headlines: List<NewsArticle>) {
+        viewModel.updateNewsDataSource(headlines)
+    }
 
     override fun showLoader() {
-        pb.show()
-        tvBio.hide()
-        tvName.hide()
-        tvGists.hide()
-        tvRepos.hide()
-        ivAvatar.hide()
+        progressBar.show()
+        container.hide()
     }
 
     override fun hideLoader() {
-        pb.hide()
-        tvBio.show()
-        tvName.show()
-        tvGists.show()
-        tvRepos.show()
-        ivAvatar.show()
-    }
-
-    override fun displayData(data: DisplayData) {
-        with(data) {
-            tvName.text = name
-            com.bumptech.glide.Glide.with(this@MainActivity).load(avatarUrl).into(ivAvatar)
-            tvRepos.text = publicRepos
-            tvGists.text = publicGists
-            tvBio.text = bio
-        }
+        progressBar.hide()
+        container.show()
     }
 
     override fun showError(error: String) {
@@ -49,16 +36,43 @@ class MainActivity : AppCompatActivity(),MainView {
     }
 
     private val presenter by lazy { MainPresenter(this, DataRepositoryImpl()) }
+    private lateinit var viewModel: MainViewModel
+
+    private val newsFragment: Fragment = NewsFragment.newInstance()
+    private val bookmarkFragment: Fragment = BookmarkFragment.newInstance()
+    private val fragmentManager = supportFragmentManager
+    var active = newsFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        presenter.initDatabase(AndroidSqliteDriver(Database.Schema, this, "user.db"))
-        etUserName.hint = presenter.getSavedUserData()
-        fabGo.setOnClickListener {
-            presenter.loadData(etUserName.text.toString())
-        }
+        setupUi()
+        presenter.loadTopHeadlines()
     }
 
+    private fun setupUi() {
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        presenter.initDatabase(AndroidSqliteDriver(Database.Schema, this, "user.db"))
+        fragmentManager.beginTransaction().add(R.id.container, bookmarkFragment, "bookmarkFragment").hide(bookmarkFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.container, newsFragment, "newsFragment").commit()
+    }
 
+    private val mOnNavigationItemSelectedListener =
+        BottomNavigationView.OnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_news -> {
+                    fragmentManager.beginTransaction().hide(active).show(newsFragment).commit()
+                    active = newsFragment
+                    return@OnNavigationItemSelectedListener true
+                }
+                R.id.navigation_bookmark -> {
+                    fragmentManager.beginTransaction().hide(active).show(bookmarkFragment).commit()
+                    active = bookmarkFragment
+                    return@OnNavigationItemSelectedListener true
+                }
+            }
+            false
+        }
 }
+
