@@ -3,7 +3,7 @@ package org.kotlin.mpp.mobile.presentation
 import com.squareup.sqldelight.db.SqlDriver
 import data.NewsArticle
 import data.NewsData
-import org.kotlin.mpp.mobile.getMainDispetcher
+import org.kotlin.mpp.mobile.getMainDispatcher
 import org.kotlin.mpp.mobile.getSqlDeliteDriver
 import org.kotlin.mpp.mobile.model.DataRepository
 import org.kotlin.mpp.mobile.storage.getSavedUsername
@@ -19,7 +19,7 @@ import kotlin.coroutines.CoroutineContext
 class MainPresenter(
     private val view: MainView,
     private val repository: DataRepository,
-    private val uiContext: CoroutineContext = getMainDispetcher()) {
+    private val uiContext: CoroutineContext = getMainDispatcher()) {
 
     fun initDatabase(driver: SqlDriver) {
         if (userDatabase == null) {

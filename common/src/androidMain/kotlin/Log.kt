@@ -25,7 +25,7 @@ actual object Log{
 //        Timber.e(error)
     }
 }
-actual fun getMainDispetcher(): CoroutineDispatcher {
+actual fun getMainDispatcher(): CoroutineDispatcher {
     return Dispatchers.Main
 }
 
