@@ -1,9 +1,0 @@
-CREATE TABLE User (
-  name TEXT NOT NULL
-);
-
-insert:
-INSERT INTO User (name) VALUES (?);
-
-getAll:
-SELECT * FROM User;

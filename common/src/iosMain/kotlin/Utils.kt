@@ -5,6 +5,9 @@ import com.squareup.sqldelight.drivers.ios.NativeSqliteDriver
 import platform.Foundation.NSRunLoop
 import platform.Foundation.performBlock
 import kotlinx.coroutines.*
+import platform.darwin.dispatch_async
+import platform.darwin.dispatch_get_main_queue
+import platform.darwin.dispatch_queue_t
 import kotlin.coroutines.CoroutineContext
 import storage.Database
 

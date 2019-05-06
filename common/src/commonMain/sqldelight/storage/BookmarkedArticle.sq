@@ -1,0 +1,17 @@
+CREATE TABLE BookmarkedArticle (
+  author TEXT NOT NULL,
+  content TEXT NOT NULL,
+  description TEXT NOT NULL,
+  publishedAt TEXT NOT NULL,
+  sourceId TEXT NOT NULL,
+  sourceName TEXT NOT NULL,
+  title TEXT NOT NULL,
+  url TEXT NOT NULL,
+  urlToImage TEXT NOT NULL
+);
+
+insert:
+INSERT INTO BookmarkedArticle (author, content, description, publishedAt, sourceId, sourceName, title, url, urlToImage) VALUES (?,?,?,?,?,?,?,?,?);
+
+getAll:
+SELECT * FROM BookmarkedArticle;
