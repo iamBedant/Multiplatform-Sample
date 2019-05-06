@@ -2,10 +2,10 @@ package org.kotlin.mpp.mobile.presentation
 
 import com.squareup.sqldelight.db.SqlDriver
 import data.NewsArticle
-import org.kotlin.mpp.mobile.getSqlDeliteDriver
 import org.kotlin.mpp.mobile.model.DataRepositoryImpl
 import org.kotlin.mpp.mobile.providers.inject
 import org.kotlin.mpp.mobile.storage.newsDatabase
+import org.kotlin.mpp.mobile.utils.mapToNewsArticle
 import org.kotlin.mpp.mobile.utils.mapToNewsArticleList
 import storage.BookmarkedArticle
 import storage.Database
@@ -24,11 +24,17 @@ class MainPresenter(private val view: MainView) {
             newsDatabase = Database(driver)
         }
     }
-    fun loadTopHeadlines() {
+
+    fun loadData() {
         view.showLoader()
         dataRepository.getTopHeadLines {
             view.displayHeadLines(it.mapToNewsArticleList())
             view.hideLoader()
+        }
+        getStoredArticles { bookmarkerdArticles ->
+            view.displayBookmarkedHeadLines(
+                bookmarkerdArticles.map { it.mapToNewsArticle() }
+            )
         }
     }
 
@@ -36,7 +42,7 @@ class MainPresenter(private val view: MainView) {
         dataRepository.saveArticle(newsArticle)
     }
 
-    fun getStoredArticles(callback : (List<BookmarkedArticle>) -> Unit) {
+    fun getStoredArticles(callback: (List<BookmarkedArticle>) -> Unit) {
         dataRepository.getStoredArticles(callback)
     }
 }

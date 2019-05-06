@@ -34,8 +34,7 @@ class NewsFragment : Fragment() {
 
     private val adapter =
         NewsAdapter(listOf()) { clickItem ->
-            // presenter.storeArticle(clickItem)
-            Toast.makeText(activity, clickItem.title, Toast.LENGTH_SHORT).show()
+            viewModel.bookmarkedArticle.value = clickItem
         }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
