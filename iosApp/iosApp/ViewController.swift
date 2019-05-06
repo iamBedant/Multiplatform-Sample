@@ -10,13 +10,17 @@ import UIKit
 import common
 
 
-class ViewController: UIViewController , MainView{
-    func showError(error: String) {
-        
+class ViewController: UIViewController , MainView {
+    
+    func displayBookmarkedHeadLines(headlines: [NewsArticle]) {
     }
     
-    func displayData(data: DisplayData) {
-        print(data.name)
+    
+    func displayHeadLines(headlines: [NewsArticle]) {
+
+    }
+    
+    func showError(error: String) {
     }
     
     func showLoader() {
@@ -27,21 +31,19 @@ class ViewController: UIViewController , MainView{
         
     }
     
-    lazy var presenter : MainPresenter = {
-        MainPresenter(view: self,
-                      repository: DataRepositoryImpl(),
-                      uiContext:IosUtilities().getDispetcher()
-        )
-    }()
+    lazy var presenter : MainPresenter = { IOSInjectorKt.injectMainPresenter() }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        presenter.doInitDatabaseIos()
-        print(presenter.getSavedUserData())
-        presenter.loadData(userName: "iamBedant")
+        NewsComponent().addModule(mainModule: MainModule(mainView: self))
+        presenter.doInitDatabase(driver: IOSDriverProviderKt.getNativeSqlDriver())
+        presenter.loadTopHeadlines()
         
+//        presenter.storeArticle(newsArticle: headline)
+//        presenter.getStoredArticles { (bookmarkedArticles) -> KotlinUnit in
+//            let name = bookmarkedArticles[0]
+//            return KotlinUnit()
+//        }
     }
-   
 }
 

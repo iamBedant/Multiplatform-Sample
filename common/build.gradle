@@ -40,6 +40,7 @@ kotlin {
             implementation "io.ktor:ktor-client-okhttp:$ktor_version"
             api 'com.jakewharton.timber:timber:4.7.1'
             implementation "com.squareup.sqldelight:android-driver:$sqldelight_version"
+            implementation "com.google.android:android:4.1.1.4"
 
 
         }

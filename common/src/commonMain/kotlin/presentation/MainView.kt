@@ -5,8 +5,9 @@ import data.NewsArticle
 /**
  * Created by @iamBedant on 03,April,2019
  */
-interface MainView : BaseView{
+interface MainView : BaseView {
     fun showLoader()
     fun hideLoader()
     fun displayHeadLines(headlines: List<NewsArticle>)
+    fun displayBookmarkedHeadLines(headlines: List<NewsArticle>)
 }

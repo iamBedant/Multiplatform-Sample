@@ -9,12 +9,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import data.NewsArticle
 import kotlinx.android.synthetic.main.activity_main.*
-import org.kotlin.mpp.mobile.model.DataRepositoryImpl
 import org.kotlin.mpp.mobile.presentation.MainPresenter
 import org.kotlin.mpp.mobile.presentation.MainView
+import org.kotlin.mpp.mobile.providers.NewsComponent
+import org.kotlin.mpp.mobile.providers.MainModule
+import org.kotlin.mpp.mobile.providers.inject
 import storage.Database
 
+
 class MainActivity : AppCompatActivity(), MainView {
+
     override fun displayHeadLines(headlines: List<NewsArticle>) {
         viewModel.updateNewsDataSource(headlines)
     }
@@ -35,25 +39,30 @@ class MainActivity : AppCompatActivity(), MainView {
         }
     }
 
-    private val presenter by lazy { MainPresenter(this, DataRepositoryImpl()) }
+    override fun displayBookmarkedHeadLines(headlines: List<NewsArticle>) {
+        // update view model for bookmarked articles
+    }
+
+    private val mainPresenter by lazy { inject<MainPresenter>() }
     private lateinit var viewModel: MainViewModel
 
     private val newsFragment: Fragment = NewsFragment.newInstance()
     private val bookmarkFragment: Fragment = BookmarkFragment.newInstance()
     private val fragmentManager = supportFragmentManager
-    var active = newsFragment
+    private var active = newsFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        NewsComponent.addModule(MainModule(this))
         setupUi()
-        presenter.loadTopHeadlines()
+        mainPresenter.loadTopHeadlines()
     }
 
     private fun setupUi() {
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        presenter.initDatabase(AndroidSqliteDriver(Database.Schema, this, "user.db"))
+        mainPresenter.initDatabase(AndroidSqliteDriver(Database.Schema, this, "articles.db"))
         fragmentManager.beginTransaction().add(R.id.container, bookmarkFragment, "bookmarkFragment").hide(bookmarkFragment).commit()
         fragmentManager.beginTransaction().add(R.id.container, newsFragment, "newsFragment").commit()
     }

@@ -31,8 +31,12 @@ class NewsFragment : Fragment() {
         viewModel = ViewModelProviders.of(activity!!).get(MainViewModel::class.java)
 
     }
+
     private val adapter =
-        NewsAdapter(listOf()) { clickItem -> Toast.makeText(activity, clickItem.title, Toast.LENGTH_SHORT).show() }
+        NewsAdapter(listOf()) { clickItem ->
+            // presenter.storeArticle(clickItem)
+            Toast.makeText(activity, clickItem.title, Toast.LENGTH_SHORT).show()
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         rvNews.layoutManager = GridLayoutManager(activity, 1)
