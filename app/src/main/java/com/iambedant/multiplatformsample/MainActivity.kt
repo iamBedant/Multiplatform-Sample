@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.squareup.sqldelight.android.AndroidSqliteDriver
@@ -40,12 +41,11 @@ class MainActivity : AppCompatActivity(), MainView {
     }
 
     override fun displayBookmarkedHeadLines(headlines: List<NewsArticle>) {
-        // update view model for bookmarked articles
+        viewModel.updateBookmarkedArticles(headlines)
     }
 
     private val mainPresenter by lazy { inject<MainPresenter>() }
     private lateinit var viewModel: MainViewModel
-
     private val newsFragment: Fragment = NewsFragment.newInstance()
     private val bookmarkFragment: Fragment = BookmarkFragment.newInstance()
     private val fragmentManager = supportFragmentManager
@@ -56,7 +56,17 @@ class MainActivity : AppCompatActivity(), MainView {
         setContentView(R.layout.activity_main)
         NewsComponent.addModule(MainModule(this))
         setupUi()
-        mainPresenter.loadTopHeadlines()
+        setupObservers()
+        mainPresenter.loadData()
+    }
+
+    private fun setupObservers() {
+        viewModel.bookmarkedArticle.observe(this, Observer {article->
+            article?.let {
+                mainPresenter.storeArticle(it)
+                Toast.makeText(this, "Storing ${it.title}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun setupUi() {
