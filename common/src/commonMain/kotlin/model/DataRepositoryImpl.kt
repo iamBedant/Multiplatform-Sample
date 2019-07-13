@@ -15,14 +15,13 @@ import storage.BookmarkedArticle
  * Created by @iamBedant on 03,April,2019
  */
 
-class DataRepositoryImpl : DataRepository {
+class DataRepositoryImpl(private val networkApi: NetworkApi) : DataRepository {
     override var topHeadlines: NewsData? = null
-    private val api = NetworkApi("https://github.com")
 
     // Remove this function later
     override suspend fun getTopHeadlines() {
         val data = try {
-            api.getTopHeadlines()
+            networkApi.getTopHeadlines()
         } catch (cause: Throwable) {
             Log.e(cause)
             throw UnknownProblem()
@@ -31,7 +30,7 @@ class DataRepositoryImpl : DataRepository {
     }
 
     fun getTopHeadLines(block : (NewsData) -> Unit) {
-        runAsyncSuspend( { api.getTopHeadlines() }, { newsData ->
+        runAsyncSuspend( { networkApi.getTopHeadlines() }, { newsData ->
             newsData?.let { block.invoke(it) }
         })
     }
