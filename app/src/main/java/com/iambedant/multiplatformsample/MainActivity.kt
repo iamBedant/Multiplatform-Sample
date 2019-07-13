@@ -12,9 +12,8 @@ import data.NewsArticle
 import kotlinx.android.synthetic.main.activity_main.*
 import org.kotlin.mpp.mobile.presentation.MainPresenter
 import org.kotlin.mpp.mobile.presentation.MainView
-import org.kotlin.mpp.mobile.providers.NewsComponent
-import org.kotlin.mpp.mobile.providers.MainModule
-import org.kotlin.mpp.mobile.providers.inject
+import org.kotlin.mpp.mobile.providers.NewsDependencyContainer
+import org.kotlin.mpp.mobile.providers.NewsDependencyContainer.inject
 import storage.Database
 
 
@@ -54,7 +53,7 @@ class MainActivity : AppCompatActivity(), MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        NewsComponent.addModule(MainModule(this))
+        NewsDependencyContainer.initialize(this)
         setupUi()
         setupObservers()
         mainPresenter.loadData()

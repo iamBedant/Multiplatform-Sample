@@ -35,7 +35,7 @@ class ViewController: UIViewController , MainView {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NewsComponent().addModule(mainModule: MainModule(mainView: self))
+        NewsDependencyContainer().initialize(mainView: self)
         presenter.doInitDatabase(driver: IOSDriverProviderKt.getNativeSqlDriver())
         presenter.loadTopHeadlines()
         

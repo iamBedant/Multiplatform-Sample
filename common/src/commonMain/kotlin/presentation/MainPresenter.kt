@@ -3,7 +3,6 @@ package org.kotlin.mpp.mobile.presentation
 import com.squareup.sqldelight.db.SqlDriver
 import data.NewsArticle
 import org.kotlin.mpp.mobile.model.DataRepositoryImpl
-import org.kotlin.mpp.mobile.providers.inject
 import org.kotlin.mpp.mobile.storage.newsDatabase
 import org.kotlin.mpp.mobile.utils.mapToNewsArticle
 import org.kotlin.mpp.mobile.utils.mapToNewsArticleList
@@ -14,10 +13,7 @@ import storage.Database
  * Created by @iamBedant on 04,April,2019
  */
 
-class MainPresenter(private val view: MainView) {
-
-    // We should be able to inject MainView as well. Will see that later.
-    private val dataRepository: DataRepositoryImpl by lazy { inject<DataRepositoryImpl>() }
+class MainPresenter(private val view: MainView, private val dataRepository: DataRepositoryImpl) {
 
     fun initDatabase(driver: SqlDriver) {
         if (newsDatabase == null) {
